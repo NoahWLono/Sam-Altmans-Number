@@ -1,0 +1,783 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,longtable}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+\usepackage{fancyhdr,fancyvrb}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Sam Altman's Number}
+\fancyhead[R]{\small A comparison with Rayo}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newcommand{\N}{\mathbb N}
+\newcommand{\V}{\mathcal V}
+\newcommand{\F}{\mathcal F}
+\newcommand{\U}{\mathsf U}
+\newcommand{\Sat}{\operatorname{Sat}}
+\newcommand{\Adm}{\operatorname{Adm}}
+\newcommand{\Below}{\operatorname{Below}}
+\newcommand{\ev}{\operatorname{ev}}
+\newcommand{\run}{\operatorname{run}}
+\newcommand{\enc}{\operatorname{enc}}
+\newcommand{\BB}{\operatorname{BB}^{+}}
+\newcommand{\pair}[2]{\langle #1,#2\rangle}
+\newcommand{\code}[1]{{\small\expandafter\nolinkurl\expandafter{\detokenize{#1}}}}
+\newcommand{\diverges}{\uparrow}
+\newcommand{\halts}{\downarrow}
+\DeclareMathOperator{\dom}{dom}
+\title{\textbf{Sam Altman's Number}\\[5pt]
+  \large A finite number beyond Rayo, with syntactic and arithmetic Lean certificates}
+\author{GPT-6 Astra}
+\date{15 October 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+We define a finite natural number $S_{\V}$ and prove $2^{R_{\V}}<S_{\V}$,
+where $R_{\V}$ is Rayo's number under the intended interpretation of set theory
+used in his original definition. The construction uses truth on an explicitly finite collection of
+first-order formulas, a specified oracle-program language, the join of its
+finite diagonal-halting iterates, and a googol-bit strict output bound.
+An actual program of code $1851571349958786726<2^{61}$ searches a comparison
+channel and returns the least bound on the relevant named naturals.
+A second explicit program exponentiates this output and has code below
+$2^{2048}$.
+Kernel-checked Lean proofs certify the finite syntax, logical uniqueness,
+program encoding, search behavior, and an unconditional arithmetic comparison
+for every input truth profile. The intended profile is supplied by finitely
+many Separation instances, with no identification of a Lean type with the
+universe of all sets. This specifies the semantic interpretation separately
+from the checked uniform certificate. No largest-number, record, or new
+general diagonalization method is claimed.
+\end{abstract}
+
+\section{The benchmark and the result}
+
+Put $G=10^{100}$. We use Rayo's final displayed winning entry from the 2007
+Big Number Duel: descriptions have \emph{fewer than} $G$ symbols, one free
+variable, and exactly one satisfying object among all sets; that object must
+be a finite von Neumann ordinal. His introductory paraphrase has a different
+endpoint, so it is the final definition that fixes our benchmark
+\cite{rayo}. Write $R_{\V}$ for the least natural number strictly greater than
+every natural named in this way, with the standard intended interpretation
+denoted by $\V$.
+
+\begin{theorem}[Main comparison]\label{thm:main}
+The construction in Definitions~\ref{def:profile} and~\ref{def:number}
+determines a finite natural number $S_{\V}$, called \emph{Sam Altman's Number},
+and
+\[
+                         2^{R_{\V}}<S_{\V},\qquad R_{\V}<S_{\V}.
+\]
+\end{theorem}
+
+The name is a label; it supplies no extra bits to the oracle. The mathematical
+content lies in fixing the syntax, semantic input, machine encoding, and
+comparison witness well enough that another reader can reproduce the same
+definition.
+
+Rayo explicitly uses the intended interpretation of set theory and warns that
+different models need not give the same value \cite{rayo}. We retain that
+interpretation throughout. Our proof does not select a set-sized model and
+rename its value $R_{\V}$. It first reduces the semantic input to a set of
+natural-number data, then applies a theorem about \emph{every} such input.
+Section~\ref{sec:formal} states exactly which parts are kernel-checked and
+which constitute the mathematical interpretation of those certificates.
+
+The construction has no circular appeal to $S_{\V}$ or numerical input named
+``Rayo.'' Its order is: finite syntax, the intended truth profile, a base
+oracle, finite halting iterates, their join, and a finite output maximum.
+
+\section{Finite syntax with an infinite supply of variable names}
+
+The surface language has atoms $x_i=x_j$ and $x_i\in x_j$, together with
+$(\neg p)$, $(p\wedge q)$, and $\exists x_i(p)$. Each variable occurrence is
+one variable symbol; its subscript identifies the variable. This gives the
+token costs
+\begin{align*}
+ \ell(x_i=x_j)=\ell(x_i\in x_j)&=3,\\
+ \ell(\neg p)&=\ell(p)+3,\\
+ \ell(p\wedge q)&=\ell(p)+\ell(q)+3,\\
+ \ell(\exists x_i p)&=\ell(p)+4.
+\end{align*}
+The costs include the parentheses displayed in the grammar. They use the
+five formula-building forms in Rayo's definition. We rename his distinguished
+free variable $x_1$ to $x_0$; variable names do not change token counts.
+
+An infinite alphabet of variable names makes a direct list of all surface
+strings inconvenient. We therefore resolve binding into coordinates. Let
+$\F_k$ be the finite-term grammar
+\[
+ p ::= (i=j)\mid(i\in j)\mid\neg p\mid(p\wedge q)\mid\exists p,
+ \qquad i,j<k,
+\]
+where the child of an existential lies in $\F_{k+1}$. The new bound variable
+has coordinate zero; the preceding coordinates shift by one. The same token
+costs apply, and the sole free coordinate of $\F_1$ is zero.
+
+For a membership structure and an assignment $s$, satisfaction is defined by
+the expected atomic clauses, negation and conjunction, and
+\[
+ \Sat(\exists p,s)\quad\Longleftrightarrow\quad
+ \exists x\,\Sat(p,x::s).
+\]
+Every quantifier in an intended interpretation ranges over all sets. This
+notation is used externally for each fixed formula; it does not postulate
+one first-order truth predicate inside $\V$.
+For each fixed formula, these clauses agree with the satisfaction clauses in
+Rayo's second-order presentation by structural induction on that formula.
+
+\begin{lemma}[Normalization and finite enumeration]\label{lem:syntax}
+Every surface formula with only $x_0$ free translates to a formula of $\F_1$
+with the same token count and the same satisfaction condition. For each
+natural $b$, the collection
+\[
+                 D_b=\{p\in\F_1:\ell(p)<b\}
+\]
+is finite and has a specified effective list enumeration.
+\end{lemma}
+\begin{proof}
+Maintain a map from variable names to available coordinates. Under
+$\exists x_i$, send $i$ to zero and shift every other coordinate. This handles
+shadowing as well as fresh names. Structural induction proves preservation
+of size and satisfaction, since extending a coordinate assignment gives
+exactly the corresponding surface assignment update.
+
+Define depth to be one for atoms, one plus the child depth for negation and
+existential quantification, and one plus the maximum child depth for
+conjunction. Induction gives $\operatorname{depth}(p)\leq\ell(p)$.
+Let $E(k,0)$ be the empty list. In the order specified below, $E(k,d+1)$ is
+the concatenation of:
+\begin{enumerate}
+\item equality atoms $(i=j)$, with $i$ increasing first as the outer loop and
+      $j$ increasing in its inner loop;
+\item membership atoms $(i\in j)$ in the same order;
+\item $\neg p$ for $p$ in $E(k,d)$;
+\item $p\wedge q$, with $p$ in $E(k,d)$ as the outer loop and $q$ in that
+      list as the inner loop;
+\item $\exists p$ for $p$ in $E(k+1,d)$.
+\end{enumerate}
+List order is preserved at every step, and duplicates are retained.
+Induction on $d$ proves that membership in $E(k,d)$ is equivalent to depth
+at most $d$. Filter $E(1,b)$ by $\ell(p)<b$ to obtain the ordered list
+$L_b$. Its underlying set is $D_b$.
+\end{proof}
+
+For $p\in\F_1$, let $\U_p$ be the literal formula
+\begin{equation}\label{eq:unique}
+ \U_p(x):=p(x)\wedge\forall y\,(p(y)\longrightarrow y=x).
+\end{equation}
+Universal quantification and implication abbreviate
+$\neg\exists\neg$ and $\neg(p\wedge\neg q)$, respectively, with
+capture-avoiding substitution. Thus $\U_p$ uses only the original five forms.
+It is equivalent to $\forall y\,(p(y)\leftrightarrow y=x)$.
+
+\begin{lemma}[All-object uniqueness]\label{lem:unique}
+For every $p$, the sequent $\U_p(x),\U_p(y)\vdash x=y$ has an explicit
+first-order natural-deduction derivation.
+\end{lemma}
+\begin{proof}
+The first premise gives $p(x)$. The second gives
+$\forall z\,(p(z)\to z=y)$. Instantiate at $x$ and apply implication
+elimination. These steps are represented directly by the constructors of
+\code{Derivation}; \code{unique_same} certifies the resulting sequent.
+\end{proof}
+
+The quantifier over $y$ in~\eqref{eq:unique} is essential. A formula with
+exactly the two solutions $0$ and $\omega$ has one natural solution, but it
+does not uniquely name an object and contributes no named natural here.
+
+\section{The intended profile is a set of natural-number data}
+
+Write $\bar n$ for the finite von Neumann ordinal representing $n$:
+$\bar0=\varnothing$ and $\overline{n+1}=\bar n\cup\{\bar n\}$.
+Induction shows that the elements of $\bar n$ are exactly the representatives
+$\bar m$ with $m<n$. Each successor contains its predecessor, and the
+membership relation on ordinals is irreflexive; hence these representatives
+are distinct and $\bar m\in\bar n$ exactly when $m<n$.
+
+For any budget $b$, define the finite syntactic support
+\[
+                  K_b=D_b\cup\{\U_p:p\in D_b\}.
+\]
+The formulas $\U_p$ need not themselves fit the original budget. They belong
+to the semantic input used to compare with that budget. This is a finite
+extension of syntax, without a self-reference: indeed
+$\ell(\U_p)=2\ell(p)+25$.
+
+\begin{definition}[Intended profile]\label{def:profile}
+The profile $T_{\V}:\F_1\times\N\to\{\mathrm{false},\mathrm{true}\}$ is
+\[
+ T_{\V}(q,n)\quad\Longleftrightarrow\quad
+ q\in K_G\ \text{and}\ \V\models q[\bar n].
+\]
+It is false outside $K_G$.
+\end{definition}
+
+This definition requires truth for finitely many fixed formula templates,
+each evaluated at all natural parameters. It is not a finite table of truth
+values: an ordinary formula row can be infinite. To see why the profile is a
+set without assuming a global truth predicate, list the distinct members of
+$K_G$ as $q_0,\ldots,q_{t-1}$. For each fixed $q_i$, Separation forms
+\[
+          A_i=\{n\in\omega:q_i(n)\}.
+\]
+The formula $q_i$ is inserted literally into this Separation instance.
+The finite union $\bigcup_{i<t}\{i\}\times A_i$ codes the required profile.
+There is no quantifier over formula codes inside a uniform assertion of set
+truth. Full truth for all first-order set-theory formulas is unnecessary.
+
+For arbitrary profiles $T:\F_1\times\N\to\mathrm{Prop}$, define
+\begin{equation}\label{eq:admits}
+ \Adm_T(p,n):=T(\U_p,n)\ \wedge\
+                   \forall m\,(T(\U_p,m)\to m=n).
+\end{equation}
+Every row of $\Adm_T$ is single-valued, even when $T$ is an incoherent input.
+This totalization makes the later arithmetic theorem unconditional.
+
+For the intended profile, Lemma~\ref{lem:unique} and injectivity of finite
+ordinals show
+\begin{equation}\label{eq:intended-admits}
+ p\in D_G\quad\Longrightarrow\quad
+ \Adm_{T_{\V}}(p,n)\ \Longleftrightarrow\
+ \V\models\U_p[\bar n].
+\end{equation}
+Thus totalization removes no intended name. Notice that uniqueness among
+natural parameters in~\eqref{eq:admits} is only a safeguard for arbitrary
+input profiles: all-object uniqueness is already inside the formula $\U_p$.
+
+Let
+\[
+ V_T(b)=\{n:\exists p\in D_b\ \Adm_T(p,n)\},\qquad
+ B_T(b)=
+ \begin{cases}
+ 0,&V_T(b)=\varnothing,\\
+ 1+\max V_T(b),&V_T(b)\ne\varnothing.
+ \end{cases}
+\]
+The set $V_T(b)$ is finite because $D_b$ is finite and each admitted row has
+at most one value. Define the comparison predicate
+\begin{equation}\label{eq:below}
+ \Below_T(b,n):=\forall p\in D_b\ \forall m\,
+                             (\Adm_T(p,m)\to m<n).
+\end{equation}
+
+\begin{lemma}[Least strict bound]\label{lem:boundary}
+For every profile $T$ and natural $b,n$,
+$\Below_T(b,n)$ holds exactly when $B_T(b)\leq n$.
+\end{lemma}
+\begin{proof}
+For a nonempty finite set, every element is less than one plus its maximum,
+and any strict upper bound is at least that successor. For the empty set the
+predicate is vacuous and its least natural solution is zero.
+\end{proof}
+
+All definitions below depend only on $T$ restricted to $K_b$. For clarity,
+put $T^{[b]}(q,n):=(q\in K_b\wedge T(q,n))$. The support lemmas in
+\code{ProfileSupport.lean} prove that restriction leaves the admitted values,
+their boundary, the base oracle, and the final number unchanged.
+
+\section{A completely specified program language}\label{sec:machine}
+
+We fix the numerical pairing function used by Mathlib:
+\begin{equation}\label{eq:pair}
+ \pair ab=
+ \begin{cases}b^2+a,&a<b,\\a^2+a+b,&a\geq b.\end{cases}
+\end{equation}
+Its inverse is $(\pi_0(n),\pi_1(n))$. Explicitly, if $s=\lfloor\sqrt n\rfloor$
+and $r=n-s^2$, the inverse is $(r,s)$ for $r<s$, and $(s,r-s)$ otherwise.
+The pairing is a bijection $\N^2\to\N$.
+
+\subsection{Ordinary partial-recursive programs}
+
+Ordinary programs $c$ have constructors
+\[
+ Z,\ S,\ L,\ R,\ P(c,d),\ C(c,d),\ Q(c,d),\ M(c).
+\]
+They are Mathlib's \code{Nat.Partrec.Code}. On input $n$, the first four
+return $0$, $n+1$, $\pi_0(n)$, and $\pi_1(n)$. Pairing returns the pair of
+two defined outputs. Composition $C(c,d)$ first runs $d$ and then $c$.
+Primitive recursion is
+\begin{align*}
+ \ev(Q(c,d),\pair a0)&=\ev(c,a),\\
+ \ev(Q(c,d),\pair a{k+1})&=
+   \ev\bigl(d,\pair a{\pair k{\ev(Q(c,d),\pair ak)}}\bigr).
+\end{align*}
+Every displayed evaluation propagates divergence from a required earlier
+evaluation. On input $\pair am$, $M(c)$ returns the least $n\geq m$ such
+that $\ev(c,\pair an)=0$, provided each trial from $m$ through $n$ terminates.
+If an earlier trial diverges, a later zero is not reached.
+
+The atomic ordinary codes are $e(Z)=0$, $e(S)=1$, $e(L)=2$, and $e(R)=3$.
+The compound codes are fixed by
+\begin{align*}
+e(P(c,d))&=4\pair{e(c)}{e(d)}+4,\\
+e(C(c,d))&=4\pair{e(c)}{e(d)}+6,\\
+e(Q(c,d))&=4\pair{e(c)}{e(d)}+5,\\
+e(M(c))&=4e(c)+7.
+\end{align*}
+This encoding has a total inverse. After the four atomic codes, decode
+$n+4$ according to $n\bmod4$: residues $0,1,2,3$ select pairing, primitive
+recursion, composition, and minimization. The quotient $\lfloor n/4\rfloor$
+supplies either a paired pair of child codes or the single child code.
+
+\subsection{Oracle programs}
+
+For a total oracle $o:\N\to\N$, our programs are
+\[
+ p::=\mathsf{prim}(c)\mid\mathsf{query}\mid\mathsf{guard}\mid
+ \mathsf{pair}(p,q)\mid\mathsf{comp}(p,q)\mid\mathsf{prec}(p,q)\mid
+ \mathsf{find}(p).
+\]
+The interpreter $\ev_o(p,n)$ is a deterministic partial natural number.
+$\mathsf{prim}(c)$ runs the ordinary program, and $\mathsf{query}$ returns
+$o(n)$. The guard returns zero at input zero and diverges otherwise.
+Pairing, composition, and primitive recursion follow the preceding equations
+with oracle evaluations. Finally,
+\[
+ \ev_o(\mathsf{find}(p),a)=
+       \mu n\,[\ev_o(p,\pair an)=0],
+\]
+where all earlier trials must terminate with nonzero outputs. These clauses
+are exactly the partial semantics in \code{OracleMachine.eval}.
+
+The oracle encoding is
+\begin{align*}
+ \enc(\mathsf{prim}(c))&=8e(c),&
+ \enc(\mathsf{query})&=1,&\enc(\mathsf{guard})&=2,\\
+ \enc(\mathsf{pair}(p,q))&=8\pair{\enc(p)}{\enc(q)}+3,\\
+ \enc(\mathsf{comp}(p,q))&=8\pair{\enc(p)}{\enc(q)}+4,\\
+ \enc(\mathsf{prec}(p,q))&=8\pair{\enc(p)}{\enc(q)}+5,\\
+ \enc(\mathsf{find}(p))&=8\enc(p)+6.
+\end{align*}
+Decode by the remainder modulo eight and recursively decode the quotient or
+its two unpaired components. Tags one and two require quotient zero; tag
+seven is invalid. Tag zero uses the total ordinary decoder. An invalid child
+makes the entire code invalid. The code zero decodes as $\mathsf{prim}(Z)$.
+Recursive child codes are smaller, so this procedure terminates.
+
+The checked round-trip theorem is
+$\operatorname{decode}(\enc(p))=p$; hence the encoding is injective.
+Let $\run_o(e,n)$ run the decoded program, or diverge if the code is invalid.
+No undefined evaluator is assigned an artificial executable output.
+
+\section{The oracle hierarchy and the named number}\label{sec:hierarchy}
+
+Write $L_b=(p_0,\ldots,p_{r-1})$ for the ordered list of
+Lemma~\ref{lem:syntax}. Define the base oracle by
+\begin{align}
+ O_{T,b}(\pair0n)&=
+    \begin{cases}0,&\Below_T(b,n),\\1,&\text{otherwise},\end{cases}
+       \label{eq:base0}\\
+ O_{T,b}(\pair{i+1}n)&=
+    \begin{cases}0,&i<r\text{ and }T(p_i,n),\\1,&\text{otherwise}.
+       \end{cases}\label{eq:base1}
+\end{align}
+Channel zero tests the comparison predicate. The other channels expose the
+ordinary description-truth rows, including duplicate channels when the list
+contains duplicates. The rows of $\U_p$ affect the comparison predicate;
+they are not separate direct query channels unless they themselves occur in
+$L_b$. This explains exactly why the support is $K_b$.
+
+For every total oracle $o$, define its diagonal halting function
+\[
+ H(o)(e)=
+ \begin{cases}1,&\run_o(e,e)\halts,\\0,&\run_o(e,e)\diverges.
+ \end{cases}
+\]
+The halting bit convention differs from the successful truth-query convention:
+halting has bit one, while a true base query has bit zero.
+Starting with $o$, form
+\[
+ J_0(o)=o,\qquad J_{k+1}(o)=H(J_k(o)),\qquad
+ J_\omega(o)(\pair kn)=J_k(o)(n).
+\]
+The last expression is the tagged join of every finite stage, including stage
+zero. These are ordinary set-valued recursions once the base oracle is a set
+of natural-number data.
+
+\begin{proposition}[The join exceeds every finite stage in computational power]
+No program using oracle $J_k(o)$ computes $J_{k+1}(o)$ on every input.
+Every finite stage is computable using $J_\omega(o)$, and no finite stage
+computes the whole join, in the program language of Section~\ref{sec:machine}.
+\end{proposition}
+\begin{proof}
+If a program $p$ computed $H(o)$, form
+$d=\mathsf{comp}(\mathsf{guard},p)$. At its own code, $d$ would halt exactly
+when it did not halt. This proves the first assertion at every stage.
+A query after the address transformation $n\mapsto\pair kn$ retrieves
+stage $k$ from the join. If stage $k$ computed the whole join, that same
+transformation would compute its successor. This contradicts the first assertion.
+\end{proof}
+
+Define the auxiliary total output
+\[
+ a_o(e)=
+ \begin{cases}v,&\run_o(e,0)=v,\\0,&\run_o(e,0)\diverges.
+ \end{cases}
+\]
+The zero fallback is used only when forming a finite maximum. For a bit budget
+$w\in\N$, put
+\begin{equation}\label{eq:bb}
+                  \BB_o(w)=1+\max_{0\leq e<2^w}a_o(e).
+\end{equation}
+This bound measures numerical output in our encoding. The classical
+running-time Busy Beaver convention defines a different function.
+The numerical codes are strictly below
+$2^w$, so leading-zero padding is permitted and the zero-bit convention
+admits only code zero.
+
+\begin{definition}[The construction]\label{def:number}
+For every profile $T$, define
+\[
+ S(T)=\BB_{J_\omega(O_{T^{[G]},G})}(G).
+\]
+Sam Altman's Number is
+\[
+                          \boxed{S_{\V}=S(T_{\V}).}
+\]
+\end{definition}
+
+This is a finite natural: there are finitely many codes below $2^G$, every
+halting code has a unique natural output, and a finite set of naturals has a
+maximum. The definition includes a hierarchy inaccessible to each of its
+finite stages and a maximum over the entire permitted program space. Its
+comparison proof will need only one program from that space.
+
+The cutoff channel alone is computable with its finite threshold hardwired;
+we make no claim of noncomputability for that channel. Ordinary truth rows can
+carry additional information. The diagonal theorem about the hierarchy holds
+for every base, regardless of the complexity of those rows.
+
+\section{The actual comparison program}\label{sec:witness}
+
+Let $z=\mathsf{prim}(Z)$ and $r=\mathsf{prim}(R)$. Define the address program
+and search program
+\begin{equation}\label{eq:witness}
+ A=\mathsf{pair}\bigl(z,\mathsf{pair}(z,r)\bigr),\qquad
+ W=\mathsf{find}\bigl(\mathsf{comp}(\mathsf{query},A)\bigr).
+\end{equation}
+On a search trial input $\pair0n$, $A$ returns
+$\pair0{\pair0n}$. The outer tag selects stage zero of the join; the inner
+tag selects the comparison channel of the base. Consequently
+\[
+ J_\omega(O_{T,b})(\pair0{\pair0n})=0
+       \quad\Longleftrightarrow\quad\Below_T(b,n).
+\]
+
+\begin{lemma}[Exact search output]\label{lem:witness}
+For every profile $T$ and every natural budget $b$,
+\[
+             \ev_{J_\omega(O_{T,b})}(W,0)=B_T(b).
+\]
+\end{lemma}
+\begin{proof}
+Every address transformation and oracle query terminates. By
+Lemma~\ref{lem:boundary}, the tested predicate first holds at $B_T(b)$.
+Every earlier trial returns one and that trial returns zero, so the
+minimization semantics returns exactly $B_T(b)$.
+\end{proof}
+
+The search expression uses only the existing program constructors, and its
+behavior follows from their partial evaluation clauses. Its code is fixed
+independently of $T$, $b$, or any numerical Rayo value. The encoding equations
+give
+\begin{align*}
+ \enc(z)&=0,&\enc(r)&=24,\\
+ \enc(\mathsf{pair}(z,r))&=4611,&\enc(A)&=170090571,\\
+ \enc(W)&=1851571349958786726
+       <2305843009213693952=2^{61}.
+\end{align*}
+The final equality and inequality are kernel-checked using ordinary decision
+procedures, without native evaluation as a proof axiom.
+
+We next specify an ordinary program that exponentiates the search output.
+Let $I=P(L,R)$, $c_0=Z$, and $c_{k+1}=C(S,c_k)$, so that $I$ is the
+identity program and $c_k$ is the constant-$k$ program. Define
+\begin{align*}
+ \mathsf{Add}&=Q\bigl(I,C(S,C(R,R))\bigr),\\
+ \mathsf{Double}&=C\bigl(\mathsf{Add},P(I,I)\bigr),\\
+ \mathsf{PowRec}&=Q\bigl(c_1,C(\mathsf{Double},C(R,R))\bigr),\\
+ \mathsf{Pow2}&=C\bigl(\mathsf{PowRec},P(c_0,I)\bigr),\\
+ W_{\exp}&=\mathsf{comp}\bigl(\mathsf{prim}(\mathsf{Pow2}),W\bigr).
+\end{align*}
+These are abbreviations for finite terms in the already specified grammars.
+
+\begin{lemma}[Exponential witness]\label{lem:growth}
+For every profile $T$ and budget $b$,
+\[
+ \ev_{J_\omega(O_{T,b})}(W_{\exp},0)=2^{B_T(b)},
+ \qquad \enc(W_{\exp})<2^{2048}.
+\]
+\end{lemma}
+\begin{proof}
+Induction in the recursion equations gives
+$\ev(\mathsf{Add},\pair an)=a+n$. Duplication followed by addition therefore
+gives $\ev(\mathsf{Double},n)=2n$. A second induction gives
+$\ev(\mathsf{PowRec},\pair an)=2^n$: the base value is one, and the step
+doubles the preceding value. Thus $\mathsf{Pow2}$ returns $2^n$ on input
+$n$, and composition with Lemma~\ref{lem:witness} proves the output claim.
+The code inequality follows by evaluating the encoding equations for these
+fixed terms; \code{GrowthCertificate.witness_code_lt} checks it in Lean.
+\end{proof}
+
+\begin{theorem}[Unconditional arithmetic certificate]\label{thm:uniform}
+For every profile $T$, the number $S(T)$ is finite and
+\[
+                  B_{T^{[G]}}(G)<S(T),\qquad
+                  2^{B_{T^{[G]}}(G)}<S(T).
+\]
+No coherence, satisfaction, or set-theoretic interpretation hypothesis is
+needed.
+\end{theorem}
+\begin{proof}
+The admission rule~\eqref{eq:admits} makes every admitted row single-valued,
+so $B_{T^{[G]}}(G)$ exists. By Lemma~\ref{lem:witness}, $W$ outputs this
+boundary using the oracle in Definition~\ref{def:number}. Since
+$61\leq G$, its code satisfies
+\[
+                  \enc(W)<2^{61}\leq2^G.
+\]
+It is therefore among the programs maximized over in~\eqref{eq:bb}; the
+successor of that maximum is strictly larger than its output. Finiteness was
+established directly after Definition~\ref{def:number}.
+For the stronger inequality use $W_{\exp}$ instead. Lemma~\ref{lem:growth}
+gives its output, and $2048\leq G$ gives
+$\enc(W_{\exp})<2^{2048}\leq2^G$. The same strict maximum argument applies.
+\end{proof}
+
+\section{Applying the certificate to the original benchmark}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Fix the intended interpretation used to define $R_{\V}$. Suppose a surface
+formula $p(x_0)$ with $\ell(p)<G$ uniquely names the finite ordinal $\bar n$.
+Normalize it using Lemma~\ref{lem:syntax}, obtaining $q\in D_G$ with the same
+size and satisfaction condition. Thus $q$ is true of $\bar n$ and of no
+other set, so $\V\models\U_q[\bar n]$.
+
+The formula $\U_q$ belongs to $K_G$, hence $T_{\V}(\U_q,n)$ holds.
+Lemma~\ref{lem:unique} and finite-ordinal injectivity imply that no other
+natural parameter makes this row true. Therefore
+$\Adm_{T_{\V}}(q,n)$ holds and $n\in V_{T_{\V}}(G)$. In particular
+$n<B_{T_{\V}}(G)$.
+
+Every original Rayo denotation is therefore below $B_{T_{\V}}(G)$.
+The normalization also proves that the original naming collection is finite,
+so its least strict bound exists. By the defining minimality of $R_{\V}$,
+\[
+                         R_{\V}\leq B_{T_{\V}}(G).
+\]
+The profile $T_{\V}$ is already false outside $K_G$, so restricting it has no
+effect. Apply Theorem~\ref{thm:uniform} to this set of natural-number data:
+\[
+                2^{R_{\V}}\leq 2^{B_{T_{\V}}(G)}<S(T_{\V})=S_{\V}.
+\]
+The first inequality uses monotonicity of exponentiation. Since
+$R_{\V}\leq2^{R_{\V}}$, the asserted strict comparison with $R_{\V}$ follows
+as well. Finiteness of $S_{\V}$ follows from the same theorem.
+\end{proof}
+
+Only coverage is used: the proof does not assert equality between the surface
+and scoped naming collections. It also does not pass the class of all sets
+as a carrier to a Lean semantic theorem. The intended profile is obtained
+directly from the finite family of literal formulas, then supplied to the
+unconditional theorem about profiles on ordinary syntax and naturals.
+
+The displayed formula templates can be astronomically large. Their generation
+is an ordinary finite recursive definition; the proof uses induction on that
+definition and never expands the googol-sized enumeration in memory. The
+finite bound on formula templates is also why no uniform truth predicate or
+unbounded set-theoretic satisfaction class is needed.
+
+\section{What the formalization certifies}\label{sec:formal}
+
+The boundary comparison declarations are
+\code{FiniteProfile.fixed_comparison} and
+\code{FiniteProfile.samAltman_comparison}. They quantify over every profile.
+The latter states, in the notation of this paper,
+\[
+                  \forall T,\quad B_{T^{[G]}}(G)<S(T).
+\]
+The stronger declaration
+\code{GrowthCertificate.exponential_boundary_lt_samAltman} states
+\[
+                  \forall T,\quad 2^{B_{T^{[G]}}(G)}<S(T).
+\]
+The intended profile $T_{\V}$ is specified mathematically in
+Definition~\ref{def:profile}; Lean neither chooses that interpretation nor
+computes its truth values. The proof in the preceding section applies the
+checked theorem to that specified set. This external interpretation is part
+of the intended-semantics statement, and is not a closed Lean declaration
+identifying an internal constant with the original universe's Rayo value.
+
+The logical bridge has its own certificate. \code{FOLDerivation.lean} defines
+an inductive natural-deduction relation, proves its structural soundness, and
+constructs the uniqueness derivation of Lemma~\ref{lem:unique}. Its rules
+include hypotheses, weakening, renaming, the usual connective and quantifier
+rules, and equality substitution. No rule imports an arbitrary Lean semantic
+proof as an object-language derivation. For each fixed formula, the finite
+logical derivation is valid under the intended interpretation by those same
+rules; no domain-size condition occurs in the uniqueness argument.
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.61\linewidth}@{}}
+\toprule
+Claim & Principal certificate or interpretation step\\
+\midrule
+Finite description coverage & \code{Formula.mem_enumerate},
+  \code{Formula.mem_enumerateList}\\
+Raw binding and symbol preservation & \code{RawFormula.sat_scope},
+  \code{RawFormula.symbols_scope}\\
+Original assignment condition & \code{RawFormula.denotes_iff_winning_condition}\\
+All-object unique naming & \code{Formula.sat_unique}; syntactic
+  \code{Derivation.unique_same}\\
+Finite support suffices & \code{FiniteProfile.base_congr},
+  \code{FiniteProfile.restrict_number}\\
+Program encoding and partial search & \code{decode_encode},
+  \code{mem_eval_find}, \code{eval_searchWith_of_least}\\
+Exact witness and code bound & \code{FiniteProfile.witness_output},
+  \code{Candidate.witness_code_lt}\\
+Strict hierarchy & \code{not_computes_successor}, \code{not_computes_join}\\
+Uniform final comparison & \code{FiniteProfile.samAltman_comparison}\\
+Exponential amplification & \code{GrowthCertificate.lean}:\\[-2pt]
+ & \code{exponential_boundary_lt_samAltman}\\
+Intended input exists & Finitely many Separation instances and a finite union,
+  as specified in Section 3\\
+Original intended comparison & The application proved in Section 7, using
+  the preceding syntactic and arithmetic certificates\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+There are additional model-based validation theorems. The compositional
+profile in an arbitrary type-carrier structure satisfies the same interface;
+\code{rawRayo_lt_samAltman} verifies the full comparison there. A separate
+\code{ZFSet} instance checks an explicit first-order natural-number formula
+and its finite-ordinal interpretation. These are checks of the definitions,
+with their model qualification retained. No identification of \code{ZFSet}
+with $\V$ is used in the main proof.
+
+The project permits only the ordinary Lean foundational dependencies
+\code{propext}, \code{Classical.choice}, and \code{Quot.sound} in the audited
+declarations. The uniqueness certificate uses only the first and third.
+The accepted source contains no proof placeholders, custom mathematical
+axioms, or \code{native_decide}. Kernel checking establishes the stated
+formal theorems; the preceding interpretation argument explains their exact
+relation to the intended-semantics number.
+
+\section{Relation to earlier constructions}
+
+Relativized Busy Beaver bounds and their iteration are established ideas.
+Aaronson describes hierarchies obtained by giving programs halting oracles
+for preceding levels \cite{aaronson}. Our output measure and integer encoding
+are specified independently, so no equality with a classical Turing-machine
+Busy Beaver value is asserted.
+
+The use of stronger semantic resources has substantial background in the
+study of higher-order languages; Linnebo and Rayo discuss semantic and
+ontological hierarchies in that setting \cite{linnebo-rayo}. We need only a
+fixed finite family of set-theoretic formula templates. The philosophical
+choice of the intended interpretation remains the one made in Rayo's
+definition.
+
+Fish's account of Fish number 7 explicitly combines extensions of Rayo's
+language with oracle and hierarchy ideas to exceed the Rayo benchmark
+\cite{fish}. This is direct prior overlap in method. We make no ordering
+claim between $S_{\V}$ and Fish number 7, and no claim that naming a number
+above Rayo is new. The contribution here is the particular fully specified
+construction and its accompanying checked certificates. The result settles
+the comparison posed in this paper; it does not impose a ceiling on future
+definitions of finite numbers.
+
+\appendix
+\section{Pinned sources and reproduction}
+
+The source package is in
+\path{research/sam-altman-number/} of
+\url{https://github.com/NoahWLono/Sam-Altmans-Number}.
+Its dependency pins are Lean \code{leanprover/lean4:v4.35.0} and Mathlib
+revision
+\begin{center}\code{e91b128082cc221d6432a6a5aadcd3243af8e76c}.\end{center}
+The repository's \path{lean-toolchain} and \path{lake-manifest.json} fix the
+toolchain and dependency revisions. The package's recorded hashes identify
+the reviewed sources and exported manuscript.
+
+The definitions in this paper follow these pinned implementations:
+\begin{itemize}
+\item \path{Mathlib/Data/Nat/Pairing.lean}: \code{Nat.pair} and
+  \code{Nat.unpair}.
+\item \path{Mathlib/Computability/PartrecCode.lean}:
+  \code{Nat.Partrec.Code}, \code{encodeCode}, \code{ofNatCode}, and \code{eval}.
+\item \path{FormulaSemantics.lean} and \path{BoundedTruth.lean}:
+  surface/scoped syntax, token costs, normalization, list order, and literal
+  unique-name formulas.
+\item \path{OracleMachine.lean}, \path{OracleSearch.lean}, and
+  \path{OracleHierarchy.lean}: oracle code, partial semantics, search,
+  finite halting iterates, and the join.
+\item \path{Candidate.lean}: the fixed address/search witness and its exact code.
+\item \path{GrowthCertificate.lean}: ordinary addition and exponentiation,
+  the exponential witness, its code bound, and the stronger comparison.
+\item \path{FiniteProfile.lean} and \path{ProfileSupport.lean}:
+  admission, the base oracle, support restriction, and the named number.
+\item \path{FOLDerivation.lean}: explicit syntactic certificates and soundness.
+\end{itemize}
+
+From the repository root, after restoring the pinned dependencies, run the
+verification script to rebuild the modules, including
+\path{GrowthCertificate.lean}, in dependency order and audit the resulting
+axiom reports. This checks the proofs without enumerating $D_G$, computing
+the intended profile, or evaluating $S_{\V}$.
+
+\begin{Verbatim}[fontsize=\footnotesize]
+python3 research/sam-altman-number/verify.py
+\end{Verbatim}
+
+The source files print their principal transitive axiom dependencies using
+\code{#print axioms}. Check the complete build output for errors, warnings,
+proof-placeholder dependencies, or any dependency outside the stated allowed
+set. The package verification script and its recorded evidence provide the
+corresponding source and dependency audit. The LaTeX source is
+\path{sam-altmans-number.tex}; compiling it produces the matching paper.
+
+\begin{thebibliography}{9}
+\bibitem{rayo}
+Agust\'in Rayo.
+\emph{Big Number Duel}.
+\url{https://web.mit.edu/arayo/www/bignums.html}.
+Final displayed winning-entry definition and interpretation note.
+Accessed 15 October 2026.
+
+\bibitem{aaronson}
+Scott Aaronson.
+\emph{The Busy Beaver Frontier}, especially Section 3.
+\url{https://scottaaronson.com/bb.pdf}.
+Accessed 15 October 2026.
+
+\bibitem{linnebo-rayo}
+\O ystein Linnebo and Agust\'in Rayo.
+\emph{Hierarchies Ontological and Ideological}.
+\url{https://web.mit.edu/arayo/www/tt-g.pdf}.
+Accessed 15 October 2026.
+
+\bibitem{fish}
+Fish.
+\emph{Googology in Japan---exploring large numbers},
+sections on Fish numbers 4 and 7.
+\url{https://gyafun.jp/ln/en.html}.
+Accessed 15 October 2026.
+\end{thebibliography}
+\end{document}

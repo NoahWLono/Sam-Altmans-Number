@@ -1,0 +1,5 @@
+'SamAltmanResearch.Candidate.witness_code_lt' depends on axioms: [propext]
+'SamAltmanResearch.Candidate.eval_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Candidate.rawRayo_isLeast' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Candidate.rawRayo_lt_number' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Candidate.model_comparison' depends on axioms: [propext, Classical.choice, Quot.sound]

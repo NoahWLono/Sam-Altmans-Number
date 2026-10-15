@@ -1,0 +1,8 @@
+'SamAltmanResearch.GrowthCertificate.eval_addition' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.GrowthCertificate.eval_doubling' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.GrowthCertificate.eval_pow2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.GrowthCertificate.witness_code_lt' depends on axioms: [propext]
+'SamAltmanResearch.GrowthCertificate.witness_output' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.GrowthCertificate.exponential_boundary_lt_samAltman' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

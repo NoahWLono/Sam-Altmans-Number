@@ -1,0 +1,5 @@
+README.md: 0 findings.
+research/sam-altman-number/README.md:62 negative-parallelism KEPT The construction takes a profile and budget rather than an already supplied numerical Rayo value.
+research/sam-altman-number/REVIEW.md:36 negative-parallelism KEPT Explicitly distinguishes internal agent review from human or external peer review.
+research/sam-altman-number/PRIOR-ART.md:1 title-case-heading KEPT Sam Altman's Number is the proper name of the defined object.
+0 FIXED, 3 KEPT.

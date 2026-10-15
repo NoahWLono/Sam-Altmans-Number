@@ -1,0 +1,7 @@
+'SamAltman.OracleMachine.decode_encode' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleMachine.encode_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleMachine.mem_eval_find' depends on axioms: [propext, Quot.sound]
+'SamAltman.OracleMachine.eval_deterministic' does not depend on any axioms
+'SamAltman.OracleMachine.eval_lt_busyBeaverBits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleMachine.input_eval_lt_busyBeaverBits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleMachine.no_selfHalting_program' depends on axioms: [propext, Classical.choice, Quot.sound]

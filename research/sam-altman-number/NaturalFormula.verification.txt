@@ -1,0 +1,5 @@
+'SamAltmanResearch.NaturalFormula.nat_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.NaturalFormula.mem_nat_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.NaturalFormula.natFormula_symbols' depends on axioms: [propext]
+'SamAltmanResearch.NaturalFormula.sat_inductiveAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.NaturalFormula.sat_natFormula' depends on axioms: [propext, Classical.choice, Quot.sound]

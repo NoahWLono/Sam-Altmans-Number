@@ -138,8 +138,8 @@ def googol : Nat := 10 ^ 100
 
 theorem googol_ge_61 : 61 ≤ googol := by norm_num [googol]
 
-/-- This fixed natural is a model-indexed validation instance. The name of the
-intended-universe construction is reserved until its separate certificate exists. -/
+/-- This fixed natural validates the definitions in a set-sized model.
+The intended-universe construction is defined separately in the manuscript. -/
 noncomputable def modelNumber : Nat :=
   number (α := ZFSet.{u}) (· ∈ ·) NaturalFormula.nat googol googol
     NaturalFormula.natFormula

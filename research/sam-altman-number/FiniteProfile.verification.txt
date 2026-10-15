@@ -1,0 +1,6 @@
+'SamAltmanResearch.FiniteProfile.admits_unique' depends on axioms: [propext]
+'SamAltmanResearch.FiniteProfile.mem_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.witness_output' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.fixed_comparison' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.semanticProfile_coherent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.rawRayo_lt_profileNumber' depends on axioms: [propext, Classical.choice, Quot.sound]

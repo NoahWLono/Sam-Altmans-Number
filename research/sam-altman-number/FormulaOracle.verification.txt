@@ -1,0 +1,7 @@
+'SamAltmanResearch.FormulaOracle.oracle_pair_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FormulaOracle.oracle_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FormulaOracle.compiled_search_output' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FormulaOracle.boundary_lt_compiled_oracle_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.FormulaOracle.model_boundary_lt' depends on axioms: [propext, Classical.choice, Quot.sound]

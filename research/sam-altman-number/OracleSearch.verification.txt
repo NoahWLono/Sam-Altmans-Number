@@ -1,0 +1,10 @@
+'SamAltman.OracleSearch.mem_eval_searchWith' depends on axioms: [propext, Quot.sound]
+'SamAltman.OracleSearch.eval_searchWith_of_least' depends on axioms: [propext, Quot.sound]
+'SamAltman.OracleSearch.fixedSearch_code_lt' depends on axioms: [propext]
+'SamAltman.OracleSearch.least_lt_busyBeaverBits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleSearch.taggedSearch_zero_code_lt' depends on axioms: [propext]
+'SamAltman.OracleSearch.tagged_least_lt_busyBeaverBits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleSearch.eval_fixedSearch_descriptionOracle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltman.OracleSearch.description_boundary_lt_busyBeaverBits' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

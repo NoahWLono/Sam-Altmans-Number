@@ -1,0 +1,6 @@
+'SamAltmanResearch.FiniteProfile.unique_mem_support_of_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.values_congr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.base_congr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.restrict_number' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.samAltman_comparison' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.FiniteProfile.rawRayo_lt_samAltman' depends on axioms: [propext, Classical.choice, Quot.sound]

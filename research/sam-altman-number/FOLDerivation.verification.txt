@@ -1,0 +1,5 @@
+'SamAltmanResearch.Formula.Derivation.sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Formula.sat_instantiate' depends on axioms: [propext, Quot.sound]
+'SamAltmanResearch.Formula.Derivation.upperBound_clause' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Formula.Derivation.upperBound_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.Formula.Derivation.unique_same' depends on axioms: [propext, Quot.sound]

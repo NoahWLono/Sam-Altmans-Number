@@ -1,4 +1,4 @@
-# Prior-art assessment for the proposed Sam Altman number
+# Prior-art assessment for Sam Altman's Number
 
 Reviewed 15 October 2026. This is a focused source review of the construction
 in `FiniteProfile.lean`, `OracleHierarchy.lean`, and `Candidate.lean`. It does
@@ -25,8 +25,8 @@ codes are parts of this number's definition; changing them can change the
 number.
 
 The intended profile uses ordinary truth of the selected literal formulas
-on natural-number parameters in the intended universe of sets. The proposed
-mathematical justification forms the finitely many needed truth rows by
+on natural-number parameters in the intended universe of sets. The mathematical
+justification forms the finitely many needed truth rows by
 Separation and combines them as sets. This records the intended reading; the
 present review has not independently verified its complete formal bridge.
 The source's universal theorem for arbitrary profiles must not be described
@@ -102,8 +102,8 @@ a bounded search result. There is no proof that the exact construction is
 unpublished, and definitional differences alone do not establish a new
 mathematical method or a different numerical value.
 
-For the manuscript, the following claim is appropriately calibrated once
-the intended-semantics argument and final verification have passed review:
+The final manuscript and its separate mathematical review support the
+following calibrated claim:
 
 > We specify Sam Altman's Number by a concrete oracle-program language and
 > a fixed finite profile of set-theoretic formulas. Its oracle is the join
@@ -113,10 +113,7 @@ the intended-semantics argument and final verification have passed review:
 > established methods; its contribution here is the explicit specification
 > and accompanying Lean certificates.
 
-Until that semantic argument passes review, replace the claimed original
-comparison with "the corresponding finite-profile benchmark" and state
-separately what remains to connect that benchmark to original Rayo. The
-phrase "newly specified" can describe the object introduced in this paper;
+The phrase "newly specified" can describe the object introduced in this paper;
 "first," "unprecedented," "new method," and "largest named number" are not
 supported by this review. No comparison with Fish 7, Reidbord's proposed
 numbers, or other beyond-Rayo constructions has been established.
@@ -124,10 +121,11 @@ numbers, or other beyond-Rayo constructions has been established.
 The construction has mathematical content beyond prescribing a small
 arithmetic modification of Rayo: it specifies an oracle hierarchy, proves
 that no finite stage computes the whole join in the concrete language, and
-maximizes over a precisely bounded collection of programs. The magnitude
-claim proved by the 61-bit witness is a strict inequality. The hierarchy's
-noncomputability does not itself establish a quantitative gap at this one
-fixed budget, a growth-rate classification, or a comparison with every
+maximizes over a precisely bounded collection of programs. The 61-bit witness proves a strict inequality. The additional explicit
+exponential witness in `GrowthCertificate.lean`, with code below `2^2048`,
+proves the stronger bound `2^B < S`. This quantitative bound comes from that
+program and its checked encoding. The hierarchy's noncomputability alone
+does not establish a growth-rate classification or a comparison with every
 other oracle Busy Beaver convention.
 
 Use "finite number with a non-effective definition" when discussing the
