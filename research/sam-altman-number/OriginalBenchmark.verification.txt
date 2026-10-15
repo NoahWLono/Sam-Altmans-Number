@@ -1,0 +1,21 @@
+'SamAltmanResearch.OriginalBenchmark.mem_rawValues' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.originalRayo_isLeast' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.originalRayo_le_boundary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.restrict_originalRayo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.originalRayo_lt_samAltman' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.exponential_originalRayo_lt_samAltman' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.rawName_semanticProfile_iff' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.originalRayo_semanticProfile' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SamAltmanResearch.OriginalBenchmark.semantic_exponential_comparison' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

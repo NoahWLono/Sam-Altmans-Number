@@ -36,12 +36,17 @@ those implementations and ran the final complete build. This is internal
 review by separate agents, not human review or external peer review.
 
 The final mathematical review approved manuscript SHA-256
-`96210c80ad3d16d40a2089d52339ba3c8be1095938d34d2d3ff634fd4214b66c`.
+`f70ca33707295a4ca99b74f4236dce1bb372fd0eeee1a3f3b936cb7ab911a844`.
 It checked the intended profile's existence, original-language coverage,
 all-set uniqueness, the least-bound argument, ordinary arithmetic programs,
 oracle encoding and channel conventions, and the exact claimed inequalities.
-The final formatting revision changed only identifier wrapping and table
-alignment; the reviewer compared it with the approved mathematical draft.
+The final review also approved `OriginalBenchmark.lean`, SHA-256
+`5f7ab3b8025d40ee2222e99145c3ac9c52db4dfafd51cc6f8b0a28c93e309da6`.
+This module directly proves `2 ^ originalRayo T googol < samAltman T` for
+every profile. The review checked the semantic equivalence in both directions,
+including arbitrary assignments, the exact free-variable guard, and the
+identity `R(T_V,G) = R_V` in the paper. The definition of `S` is unchanged.
+Earlier layout corrections fixed identifier wrapping and table alignment.
 
 ## Checks and corrections
 
@@ -64,21 +69,21 @@ alignment; the reviewer compared it with the approved mathematical draft.
 - The hierarchy theorem concerns the specified language. It does not claim
   equivalence with an external Turing-machine convention or a numerical
   ordering against every other googological construction.
-- The publication verifier includes `GrowthCertificate.lean`. An earlier
-  local research verifier omitted it; that copy is not the published verifier.
+- The publication verifier includes both `GrowthCertificate.lean` and
+  `OriginalBenchmark.lean`, including their direct comparison declarations.
 
 ## Final verification
 
-The independent publication checkout rebuilt all twelve Lean modules from
+The independent publication checkout rebuilt all thirteen Lean modules from
 fresh temporary proof artifacts. All modules exited successfully, without
-Lean warnings. The 77 printed transitive axiom audits contain only `propext`,
+Lean warnings. The 86 printed transitive axiom audits contain only `propext`,
 `Classical.choice`, and `Quot.sound`, or subsets. The source guard rejected
 placeholders, custom axioms, `native_decide`, and other prohibited proof
 bypasses. `verification.json` records the exact source hashes and individual
 audits; the parent checked that every recorded hash matches the released
 source. Every installed dependency revision matched `lake-manifest.json`.
 
-Tectonic 0.17.0 exported the final eleven-page PDF. Every rendered page was
+Tectonic 0.17.0 exported the final twelve-page PDF. Every rendered page was
 inspected. Long identifier overflow was corrected, and the final TeX log has
 no overfull or underfull boxes, unresolved references, or LaTeX warnings.
 The desktop editor's independent LaTeX compiler also accepted the final

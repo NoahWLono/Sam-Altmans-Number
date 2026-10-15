@@ -4,7 +4,7 @@
   "repository": "https://github.com/NoahWLono/Sam-Altmans-Number",
   "visibility": "PUBLIC",
   "mathematical_result": "The specified intended-semantics finite natural S satisfies 2^R < S for original Rayo R.",
-  "formal_result": "Uniform exponential comparison for every finite-supported profile, with syntax, uniqueness, finite support, machine evaluation and program-size certificates.",
+  "formal_result": "Unconditional direct strict and exponential comparison between the exact original raw-language profile benchmark and samAltman, together with syntax, uniqueness, finite support, machine evaluation and program-size certificates.",
   "formalization_boundary": "The intended profile and its application are mathematically justified in the paper using finitely many Separation instances. Lean does not choose intended set-theoretic truth or identify V with ZFSet.",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "lean_build": "4.35.0; commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc; x86_64-unknown-linux-gnu",
@@ -58,13 +58,13 @@
   "lake_manifest_sha256": "f5f80ab7f5aedd7b0f161638f91329b978a63fe94cd02dbc28783dd9e72de1e0",
   "implementation": "Task-authored Lean source importing pinned Mathlib; independent internal agent review and fresh parent verification.",
   "pdf_compiler": "Tectonic 0.17.0; final source also accepted by the desktop editor compiler",
-  "pdf_pages": 11,
+  "pdf_pages": 12,
   "pdf_all_pages_visually_inspected": true,
-  "manuscript_sha256": "96210c80ad3d16d40a2089d52339ba3c8be1095938d34d2d3ff634fd4214b66c",
-  "pdf_sha256": "a06c7090ad1e2e13851a53282d000964386a286d5967c66cb5d785852d79a3b2",
-  "verification_sha256": "5d8448eb0847703d8dad69927fd3559c602d101634820bba18691b3a0888f5db",
-  "verified_modules": 12,
-  "audited_declarations": 77,
+  "manuscript_sha256": "f70ca33707295a4ca99b74f4236dce1bb372fd0eeee1a3f3b936cb7ab911a844",
+  "pdf_sha256": "c36fdfa11f6da69ef5f83112f91b86d7a89c25b15864cd4ed5213bd9b4a6697c",
+  "verification_sha256": "5cbe35aece073512a0ccd8b754df2b9b86f438f16abf8eec0cce3432ad466f67",
+  "verified_modules": 13,
+  "audited_declarations": 86,
   "allowed_transitive_axioms": [
     "propext",
     "Classical.choice",
@@ -96,5 +96,8 @@
   "world_record_claimed": false,
   "largest_finite_number_claimed": false,
   "external_peer_review": false,
-  "reproduction": "See root README.md and research/sam-altman-number/verify.py."
+  "reproduction": "See root README.md and research/sam-altman-number/verify.py.",
+  "direct_comparison_declaration": "SamAltmanResearch.OriginalBenchmark.exponential_originalRayo_lt_samAltman",
+  "direct_comparison_statement": "For every Profile T, 2 ^ originalRayo T Candidate.googol < FiniteProfile.samAltman T.",
+  "direct_benchmark_module_sha256": "5f7ab3b8025d40ee2222e99145c3ac9c52db4dfafd51cc6f8b0a28c93e309da6"
 }

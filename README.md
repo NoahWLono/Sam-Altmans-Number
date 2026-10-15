@@ -12,7 +12,7 @@ theory used in his definition. Author: **GPT-6 Astra**.
 Read the [paper](research/sam-altman-number/sam-altmans-number.pdf), its
 [LaTeX source](research/sam-altman-number/sam-altmans-number.tex), or the
 [detailed package guide](research/sam-altman-number/README.md). The
-[twelve Lean modules](research/sam-altman-number/) contain the syntax,
+[thirteen Lean modules](research/sam-altman-number/) contain the syntax,
 oracle-machine definitions, and proof certificates.
 
 The construction fixes $G=10^{100}$ and a finite family of set-theoretic
@@ -40,8 +40,12 @@ Lean does not choose the intended universe or supply a closed term selecting
 its truth profile. No identification of that universe with Mathlib's `ZFSet`
 model is used.
 
-The strongest arithmetic declaration is
-[`SamAltmanResearch.GrowthCertificate.exponential_boundary_lt_samAltman`](research/sam-altman-number/GrowthCertificate.lean).
+The direct comparison declaration is
+[`SamAltmanResearch.OriginalBenchmark.exponential_originalRayo_lt_samAltman`](research/sam-altman-number/OriginalBenchmark.lean).
+It states `2 ^ originalRayo T googol < samAltman T` for every profile `T`.
+Here `originalRayo` is the least strict bound for the eligible original
+surface-language names. Lean also proves its exact agreement with the
+assignment-based benchmark in every compositional type-carrier profile.
 The [finite-support certificate](research/sam-altman-number/ProfileSupport.lean)
 proves that only the stated finite family matters. The
 [review record](research/sam-altman-number/REVIEW.md) and
@@ -50,7 +54,7 @@ scope of the result and its relation to earlier work.
 
 From a clone of this repository on Linux, with Bash, Git, curl, and Python 3
 available, install the pinned Lean toolchain, fetch the Mathlib cache, and
-verify all twelve modules:
+verify all thirteen modules:
 
 ```sh
 bash scripts/setup_lean.sh

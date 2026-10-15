@@ -19,7 +19,7 @@ FILES = (
     "FormulaSemantics.lean", "OracleMachine.lean", "BoundedTruth.lean",
     "NaturalFormula.lean", "OracleSearch.lean", "FormulaOracle.lean",
     "OracleHierarchy.lean", "Candidate.lean", "FiniteProfile.lean",
-    "ProfileSupport.lean", "FOLDerivation.lean", "GrowthCertificate.lean",
+    "ProfileSupport.lean", "FOLDerivation.lean", "GrowthCertificate.lean", "OriginalBenchmark.lean",
 )
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
 FORBIDDEN = re.compile(r"\b(?:sorry|admit|axiom|native_decide|unsafe|implemented_by)\b")
@@ -34,6 +34,7 @@ def verify(build_root):
         "checked_at_utc": datetime.now(timezone.utc).isoformat(),
         "uniform_profile_comparison_proved": True,
         "exponential_amplification_proved": True,
+        "direct_original_benchmark_comparison_proved": True,
         "syntactic_uniqueness_certificate_proved": True,
         "finite_profile_support_proved": True,
         "kernel_selects_intended_truth_profile": False,

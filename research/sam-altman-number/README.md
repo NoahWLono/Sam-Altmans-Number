@@ -79,7 +79,7 @@ already fixed budget. Token-preserving translation covers every original
 Rayo description and gives $R\leq B$, hence $2^R\leq2^B<S$. The proof
 does not require equality of the raw and scoped naming collections.
 
-The twelve Lean modules have the following roles, in verification order:
+The thirteen Lean modules have the following roles, in verification order:
 
 | Module | Content |
 |---|---|
@@ -95,9 +95,13 @@ The twelve Lean modules have the following roles, in verification order:
 | [ProfileSupport.lean](ProfileSupport.lean) | Exact finite support, invariance under restriction, and the fixed `samAltman` construction. |
 | [FOLDerivation.lean](FOLDerivation.lean) | An explicit first-order proof calculus, soundness, uniqueness, and bound-clause derivations. |
 | [GrowthCertificate.lean](GrowthCertificate.lean) | Explicit addition, doubling, and exponentiation programs; an amplification witness below `2^2048`; and the uniform bound $2^B<S$. |
+| [OriginalBenchmark.lean](OriginalBenchmark.lean) | Exact original-language benchmark for every profile, its leastness and semantic alignment, and direct strict and exponential comparisons with `samAltman`. |
 
 The principal final declarations are:
 
+- `SamAltmanResearch.OriginalBenchmark.exponential_originalRayo_lt_samAltman`: directly proves `2 ^ originalRayo T googol < samAltman T` for every profile.
+- `SamAltmanResearch.OriginalBenchmark.originalRayo_isLeast`: the exact least-strict-bound specification over original surface-language descriptions.
+- `SamAltmanResearch.OriginalBenchmark.originalRayo_semanticProfile`: exact equality with the independently defined assignment-based raw benchmark in every injectively represented type-carrier structure.
 - `SamAltmanResearch.GrowthCertificate.exponential_boundary_lt_samAltman`:
   the stronger inequality $2^B<S$ for every profile at the fixed googol budget.
 - `SamAltmanResearch.FiniteProfile.samAltman_comparison`: the strict comparison
@@ -130,7 +134,7 @@ bash scripts/setup_tex.sh
 .tools/tectonic/tectonic --keep-logs --outdir research/sam-altman-number research/sam-altman-number/sam-altmans-number.tex
 ```
 
-[verify.py](verify.py) compiles all twelve modules in dependency order with
+[verify.py](verify.py) compiles all thirteen modules in dependency order with
 one Lean worker. Each run uses a fresh temporary directory for the package's
 compiled modules, so verification does not reuse their old `.olean` files.
 The script rejects proof placeholders, custom axioms, `native_decide`, and

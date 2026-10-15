@@ -596,6 +596,41 @@ as a carrier to a Lean semantic theorem. The intended profile is obtained
 directly from the finite family of literal formulas, then supplied to the
 unconditional theorem about profiles on ordinary syntax and naturals.
 
+The surface-language comparison itself also has a uniform profile
+formulation. Let $\operatorname{sc}(p)$ be the scope translation of a surface
+formula, with its free variable assigned coordinate zero, and put
+\[
+ N_T(b)=\{n:\exists p\ (\ell(p)<b\ \wedge\
+       \operatorname{FV}(p)=\{x_0\}\ \wedge\
+       \Adm_T(\operatorname{sc}(p),n))\}.
+\]
+Define $R(T,b)$ to be zero when $N_T(b)$ is empty, and
+$1+\max N_T(b)$ otherwise. This set is finite because
+$N_T(b)\subseteq V_T(b)$ by token preservation. Consequently $R(T,b)$ is
+its least strict natural bound and $R(T,b)\leq B_T(b)$. The same admission
+guard~\eqref{eq:admits} handles arbitrary profiles: a row with several true
+natural parameters admits none of them.
+
+For $T_{\V}$ and $b=G$, a surface formula contributes $n$ to $N_{T_{\V}}(G)$
+if and only if it uniquely names $\bar n$ under Rayo's original condition.
+Indeed, scope translation preserves satisfaction in both directions;
+equation~\eqref{eq:intended-admits} then identifies admission with all-object
+unique naming. Thus
+\begin{equation}\label{eq:raw-profile}
+                    R(T_{\V},G)=R_{\V}.
+\end{equation}
+This identifies the original surface benchmark with its profile encoding,
+without asserting that every scoped formula is an eligible surface name.
+The module \code{OriginalBenchmark.lean} checks the least-bound property and
+the direct uniform comparison
+\[
+                         \forall T,\quad 2^{R(T,G)}<S(T).
+\]
+Its proof combines $R(T,G)\leq B_T(G)$ with Theorem~\ref{thm:uniform} and
+support invariance. Equation~\eqref{eq:raw-profile} supplies the intended
+interpretation of this additional certificate; the definition of $S_{\V}$
+is unchanged.
+
 The displayed formula templates can be astronomically large. Their generation
 is an ordinary finite recursive definition; the proof uses induction on that
 definition and never expands the googol-sized enumeration in memory. The
@@ -616,6 +651,11 @@ The stronger declaration
 \[
                   \forall T,\quad 2^{B_{T^{[G]}}(G)}<S(T).
 \]
+The surface benchmark is covered directly by
+\code{OriginalBenchmark.exponential_originalRayo_lt_samAltman}, whose
+statement is $\forall T,\ 2^{R(T,G)}<S(T)$. Its input is a profile on
+ordinary syntax and naturals, with no set-carrier parameter or semantic
+hypothesis.
 The intended profile $T_{\V}$ is specified mathematically in
 Definition~\ref{def:profile}; Lean neither chooses that interpretation nor
 computes its truth values. The proof in the preceding section applies the
@@ -655,6 +695,10 @@ Strict hierarchy & \code{not_computes_successor}, \code{not_computes_join}\\
 Uniform final comparison & \code{FiniteProfile.samAltman_comparison}\\
 Exponential amplification & \code{GrowthCertificate.lean}:\\[-2pt]
  & \code{exponential_boundary_lt_samAltman}\\
+Exact surface benchmark & \code{OriginalBenchmark.lean}:\\[-2pt]
+ & \code{originalRayo_isLeast}\\
+Direct surface comparison & \code{OriginalBenchmark.lean}:\\[-2pt]
+ & \code{exponential_originalRayo_lt_samAltman}\\
 Intended input exists & Finitely many Separation instances and a finite union,
   as specified in Section 3\\
 Original intended comparison & The application proved in Section 7, using
@@ -665,7 +709,11 @@ Original intended comparison & The application proved in Section 7, using
 
 There are additional model-based validation theorems. The compositional
 profile in an arbitrary type-carrier structure satisfies the same interface;
-\code{rawRayo_lt_samAltman} verifies the full comparison there. A separate
+\code{OriginalBenchmark.originalRayo_semanticProfile} identifies $R(T,b)$
+with the independently defined \code{Candidate.rawRayo} there, assuming an
+injective representation of naturals. Its
+\code{semantic_exponential_comparison} checks the stronger comparison in
+that interpretation. A separate
 \code{ZFSet} instance checks an explicit first-order natural-number formula
 and its finite-ordinal interpretation. These are checks of the definitions,
 with their model qualification retained. No identification of \code{ZFSet}
@@ -733,12 +781,14 @@ The definitions in this paper follow these pinned implementations:
   the exponential witness, its code bound, and the stronger comparison.
 \item \path{FiniteProfile.lean} and \path{ProfileSupport.lean}:
   admission, the base oracle, support restriction, and the named number.
+\item \path{OriginalBenchmark.lean}: the exact surface-profile naming
+  collection, its least strict bound, and the direct exponential comparison.
 \item \path{FOLDerivation.lean}: explicit syntactic certificates and soundness.
 \end{itemize}
 
 From the repository root, after restoring the pinned dependencies, run the
-verification script to rebuild the modules, including
-\path{GrowthCertificate.lean}, in dependency order and audit the resulting
+verification script to rebuild all thirteen modules, including
+\path{GrowthCertificate.lean} and \path{OriginalBenchmark.lean}, in dependency order and audit the resulting
 axiom reports. This checks the proofs without enumerating $D_G$, computing
 the intended profile, or evaluating $S_{\V}$.
 

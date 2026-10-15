@@ -1,7 +1,8 @@
 {
-  "checked_at_utc": "2026-10-15T17:17:29.440392+00:00",
+  "checked_at_utc": "2026-10-15T17:28:19.802896+00:00",
   "uniform_profile_comparison_proved": true,
   "exponential_amplification_proved": true,
+  "direct_original_benchmark_comparison_proved": true,
   "syntactic_uniqueness_certificate_proved": true,
   "finite_profile_support_proved": true,
   "kernel_selects_intended_truth_profile": false,
@@ -676,6 +677,85 @@
         },
         {
           "declaration": "SamAltmanResearch.GrowthCertificate.exponential_boundary_lt_samAltman",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "OriginalBenchmark.lean",
+      "sha256": "5f7ab3b8025d40ee2222e99145c3ac9c52db4dfafd51cc6f8b0a28c93e309da6",
+      "exit_code": 0,
+      "transitive_axiom_audit": [
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.mem_rawValues",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.originalRayo_isLeast",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.originalRayo_le_boundary",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.restrict_originalRayo",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.originalRayo_lt_samAltman",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.exponential_originalRayo_lt_samAltman",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.rawName_semanticProfile_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.originalRayo_semanticProfile",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "SamAltmanResearch.OriginalBenchmark.semantic_exponential_comparison",
           "axioms": [
             "propext",
             "Classical.choice",
